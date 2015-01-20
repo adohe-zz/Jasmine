@@ -1,0 +1,27 @@
+subprojects{
+    group = 'com.xqbase'
+    version = '1.0'
+
+    apply plugin: 'java'
+    sourceCompatibility = 1.7
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testCompile 'junit:junit:4.11'
+    }
+}
+
+project(':jasmine-gatekeeper-server'){
+    apply plugin:'application'
+    mainClassName='com.xqbase.gatekeeper.tcp.TcpGatekeeperMain'
+
+    dependencies {
+        compile 'org.slf4j:slf4j-api:1.7.5'
+
+        compile 'io.netty:netty-handler:5.0.0.Alpha1'
+
+        compile 'org.apache.httpcomponents:httpclient:4.3.3'
+    }
+}
