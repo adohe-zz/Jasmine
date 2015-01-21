@@ -15,4 +15,8 @@ public abstract class AbstractServer {
     protected abstract void init() throws Exception;
     protected abstract void doStart() throws Exception;
     protected abstract void doClose() throws Exception;
+
+    public void start() {
+
+    }
 }
