@@ -1,1 +1,1 @@
-include 'jasmine-gatekeeper-server'
+include 'jasmine-gatekeeper-server', 'jasmine-server-builder'

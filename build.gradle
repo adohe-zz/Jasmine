@@ -25,3 +25,11 @@ project(':jasmine-gatekeeper-server'){
         compile 'org.apache.httpcomponents:httpclient:4.3.3'
     }
 }
+
+project(':jasmine-server-builder'){
+    apply plugin: 'java'
+
+    dependencies {
+        compile 'io.netty:netty-handler:5.0.0.Alpha1'
+    }
+}
