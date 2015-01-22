@@ -1,7 +1,18 @@
 package com.xqbase.gatekeeper.tcp.netty;
 
 /**
- * Created by tonyhe on 15-1-20.
+ * This internal NettyServer handles TCP connections with
+ * asynchronous mode.
+ *
+ * @author Tony He
  */
 public class NettyServer {
+
+    public NettyServer() {
+
+    }
+
+    public void close() {
+
+    }
 }
