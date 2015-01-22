@@ -19,4 +19,8 @@ public abstract class AbstractServer {
     public void start() {
 
     }
+
+    public void close() {
+
+    }
 }
