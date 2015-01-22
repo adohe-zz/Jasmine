@@ -1,5 +1,6 @@
 package com.xqbase.gatekeeper.tcp.netty;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 
@@ -9,7 +10,9 @@ import io.netty.channel.socket.SocketChannel;
  *
  * @author Tony He
  */
+@ChannelHandler.Sharable
 public class CustomServerInitializer extends ChannelInitializer<SocketChannel> {
+
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
 
