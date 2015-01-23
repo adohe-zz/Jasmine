@@ -1,7 +1,17 @@
 package com.xqbase.gatekeeper.tcp.netty;
 
+import java.util.concurrent.Callable;
+
 /**
- * Created by tonyhe on 15-1-20.
+ * GateCallable implements the Callable interface and
+ * handles request connection.
+ *
+ * @author Tony He
  */
-public class GateCallable {
+public class GateCallable implements Callable {
+
+    @Override
+    public Object call() throws Exception {
+        return null;
+    }
 }
