@@ -65,4 +65,11 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
         else
             remove(key);
     }
+
+    /**
+     * Unset the thread local context. Done at the end of the request.
+     */
+    public void unset() {
+        threadLocal.remove();
+    }
 }
