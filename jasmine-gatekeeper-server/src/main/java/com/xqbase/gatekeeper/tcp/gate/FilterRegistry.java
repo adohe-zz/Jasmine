@@ -1,5 +1,6 @@
 package com.xqbase.gatekeeper.tcp.gate;
 
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -27,5 +28,9 @@ public class FilterRegistry {
 
     public void put(String key, GateFilter filter) {
         this.filters.putIfAbsent(key, filter);
+    }
+
+    public Collection<GateFilter> getAllFilters() {
+        return this.filters.values();
     }
 }

@@ -99,6 +99,7 @@ public class FilterFileManager {
                 while (running) {
                     try {
                         sleep(pollingInterval * 1000);
+                        manageFiles();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
