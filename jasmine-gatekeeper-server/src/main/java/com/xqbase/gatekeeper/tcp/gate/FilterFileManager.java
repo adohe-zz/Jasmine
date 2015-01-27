@@ -113,11 +113,14 @@ public class FilterFileManager {
         running = false;
     }
 
-    private void manageFiles() {
+    private void manageFiles() throws Exception {
         List<File> files = getFiles();
         processFilterFile(files);
     }
 
-    private void processFilterFile(List<File> files) {
+    private void processFilterFile(List<File> files) throws Exception {
+        for (File file : files) {
+            FilterLoader.getInstance().putFilter(file);
+        }
     }
 }

@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,7 +24,7 @@ public class FilterLoader {
     private static final FilterLoader INSTANCE = new FilterLoader();
 
     private final ConcurrentHashMap<String, Long> filterClassLastModified = new ConcurrentHashMap<String, Long>();
-    private final ConcurrentHashMap<String, List<GateFilter>> hashFiltersByType = new ConcurrentHashMap<String, List<GateFilter>>();
+    private final ConcurrentHashMap<String, List<AbstractGateFilter>> hashFiltersByType = new ConcurrentHashMap<String, List<AbstractGateFilter>>();
 
     private static final FilterRegistry FILTER_REGISTRY = FilterRegistry.getInstance();
     private static DynamicCodeCompiler COMPILER;
@@ -45,22 +48,41 @@ public class FilterLoader {
             FILTER_REGISTRY.remove(name);
         }
 
-        GateFilter filter = FILTER_REGISTRY.get(name);
+        AbstractGateFilter filter = FILTER_REGISTRY.get(name);
         if (filter == null) {
             Class clazz = COMPILER.compile(file);
             if (!Modifier.isAbstract(clazz.getModifiers())) {
-                filter = (GateFilter) FILTER_FACTORY.newInstance(clazz);
+                filter = (AbstractGateFilter) FILTER_FACTORY.newInstance(clazz);
+                List<AbstractGateFilter> list = getFiltersByType(filter.filterType());
+                if (list != null) {
+                    hashFiltersByType.remove(filter.filterType()); // rebuild the list.
+                }
+                FILTER_REGISTRY.put(name, filter);
+                filterClassLastModified.put(name, file.lastModified());
+                return true;
             }
         }
-        return true;
+
+        return false;
     }
 
-    private List<GateFilter> getFiltersByType(String filterType) {
-        List<GateFilter> filters = hashFiltersByType.get(filterType);
+    private List<AbstractGateFilter> getFiltersByType(String filterType) {
+        List<AbstractGateFilter> filters = hashFiltersByType.get(filterType);
 
         if (filters != null)
             return filters;
 
+        Collection<AbstractGateFilter> allFilters = FILTER_REGISTRY.getAllFilters();
+        for (Iterator<AbstractGateFilter> iterator = allFilters.iterator(); iterator.hasNext();) {
+            AbstractGateFilter filter = iterator.next();
+            if (filter.filterType().equals(filterType)) {
+                filters.add(filter);
+            }
+        }
+
+        Collections.sort(filters);
+
+        hashFiltersByType.putIfAbsent(filterType, filters);
         return filters;
     }
 }
