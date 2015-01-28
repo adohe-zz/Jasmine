@@ -1,9 +1,7 @@
 package com.xqbase.gatekeeper.tcp.gate;
 
-import java.util.concurrent.Callable;
-
 /**
- *
+ * This class initializes the servlet requests and
  */
 public class GateRunner {
 

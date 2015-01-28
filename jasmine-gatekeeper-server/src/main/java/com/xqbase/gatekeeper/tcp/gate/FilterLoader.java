@@ -24,11 +24,56 @@ public class FilterLoader {
     private static final FilterLoader INSTANCE = new FilterLoader();
 
     private final ConcurrentHashMap<String, Long> filterClassLastModified = new ConcurrentHashMap<String, Long>();
+    private final ConcurrentHashMap<String, String> filterCheck = new ConcurrentHashMap<String, String>();
+    private final ConcurrentHashMap<String, String> filterClassCode = new ConcurrentHashMap<String, String>();
     private final ConcurrentHashMap<String, List<AbstractGateFilter>> hashFiltersByType = new ConcurrentHashMap<String, List<AbstractGateFilter>>();
 
-    private static final FilterRegistry FILTER_REGISTRY = FilterRegistry.getInstance();
+    private static FilterRegistry FILTER_REGISTRY = FilterRegistry.getInstance();
     private static DynamicCodeCompiler COMPILER;
     private static FilterFactory FILTER_FACTORY = new DefaultFilterFactory();
+
+    /**
+     * Sets the dynamic code compiler.
+     */
+    public void setCompiler(DynamicCodeCompiler compiler) {
+        COMPILER = compiler;
+    }
+
+    /**
+     * Sets the Filter Registry.
+     */
+    public void setFilterRegistry(FilterRegistry filterRegistry) {
+        FILTER_REGISTRY = filterRegistry;
+    }
+
+    public void setFilterFactory(FilterFactory filterFactory) {
+        FILTER_FACTORY = filterFactory;
+    }
+
+    /**
+     * Given source and name will compile and store the filter if it
+     * detects that the filter code has changed or the filter doesn't
+     * exist. Otherwise it will return an instance of the requested
+     * filter.
+     */
+    public GateFilter getFilter(String code, String name) throws Exception {
+        if (filterCheck.get(name) == null) {
+            filterCheck.putIfAbsent(name, name);
+            if (!code.equals(filterClassCode.get(name))) {
+                LOGGER.info("Reloading code " + name);
+                FILTER_REGISTRY.remove(name);
+            }
+        }
+        AbstractGateFilter gateFilter = FILTER_REGISTRY.get(name);
+        if (gateFilter == null) {
+            Class clazz = COMPILER.compile(code, name);
+            if (!Modifier.isAbstract(clazz.getModifiers())) {
+                gateFilter = (AbstractGateFilter) FILTER_FACTORY.newInstance(clazz);
+            }
+        }
+
+        return gateFilter;
+    }
 
     /**
      * @return Singleton Instance
