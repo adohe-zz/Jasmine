@@ -72,4 +72,20 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
     public void unset() {
         threadLocal.remove();
     }
+
+    public OriginRequest getOriginRequest() {
+        return (OriginRequest) get("originRequest");
+    }
+
+    public void setOriginRequest(OriginRequest request) {
+        put("originRequest", request);
+    }
+
+    public OriginResponse getOriginResponse() {
+        return (OriginResponse) get("originResponse");
+    }
+
+    public void setOriginResponse(OriginResponse response) {
+        put("originResponse", response);
+    }
 }
