@@ -15,6 +15,27 @@ public abstract class AbstractGateFilter implements GateFilter, Comparable<Abstr
         return true;
     }
 
+    /**
+     * runFilter checks !isFilterDisabled() and shouldFilter(). The run() method is
+     * invoked if both are true.
+     */
+    public GateFilterResult runFilter() {
+        GateFilterResult result;
+        if (shouldFilter()) {
+            try {
+                Object res = run();
+                result = new GateFilterResult(res, ExecutionStatus.SUCCESS);
+            } catch (Throwable t) {
+                result = new GateFilterResult(ExecutionStatus.FAILED);
+                result.setException(t);
+            }
+        } else {
+            result = new GateFilterResult(ExecutionStatus.SKIPPED);
+        }
+
+        return result;
+    }
+
     @Override
     public int compareTo(AbstractGateFilter filter) {
         return this.filterOrder() - filter.filterOrder();
