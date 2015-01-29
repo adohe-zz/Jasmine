@@ -96,4 +96,21 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
     public boolean debugRouting() {
         return getBoolean("debugRouting");
     }
+
+    /**
+     * Appends filter name and status to the filter execution history for the
+     * current request.
+     */
+    public void addFilterExecutionSummary(String name, String status, long time) {
+        StringBuilder sb = getFilterExecutionSummary();
+        if (sb.length() > 0) sb.append(", ");
+        sb.append(name).append('[').append(status).append(']').append('[').append(time).append("ms]");
+    }
+
+    public StringBuilder getFilterExecutionSummary() {
+        if (get("executedFilters") == null) {
+            putIfAbsent("executedFilters", new StringBuilder());
+        }
+        return (StringBuilder) get("executedFilters");
+    }
 }

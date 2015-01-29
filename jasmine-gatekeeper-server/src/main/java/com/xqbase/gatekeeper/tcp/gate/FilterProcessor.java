@@ -99,9 +99,33 @@ public class FilterProcessor {
             }
 
             GateFilterResult result = gateFilter.runFilter();
-        } catch (Throwable e) {
+            ExecutionStatus status = result.getStatus();
+            execTime = System.currentTimeMillis() - ltime;
 
+            switch (status) {
+                case FAILED:
+                    t = result.getException();
+                    ctx.addFilterExecutionSummary(filterName, ExecutionStatus.FAILED.name(), execTime);
+                    break;
+                case SUCCESS:
+                    o = result.getResult();
+                    ctx.addFilterExecutionSummary(filterName, ExecutionStatus.SUCCESS.name(), execTime);
+                    break;
+                default:
+                    break;
+            }
+
+            if (t != null) throw t;
+
+            return o;
+        } catch (Throwable e) {
+            if (e instanceof GateException) {
+                throw (GateException) e;
+            } else {
+                GateException ex = new GateException(e, "Filter threw Exception", 500, gateFilter.filterType() + ":" + filterName);
+                ctx.addFilterExecutionSummary(filterName, ExecutionStatus.FAILED.name(), execTime);
+                throw ex;
+            }
         }
-        return null;
     }
 }

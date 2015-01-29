@@ -14,21 +14,21 @@ public class GateException extends Exception {
         super(message, throwable);
         this.statusCode = statusCode;
         this.errorCause = errorCause;
-        incrementCounter("ZUUL::EXCEPTION:" + errorCause + ":" + statusCode);
+        incrementCounter("GateKeeper::EXCEPTION:" + errorCause + ":" + statusCode);
     }
 
     public GateException(String message, int statusCode, String errorCause) {
         super(message);
         this.statusCode = statusCode;
         this.errorCause = errorCause;
-        incrementCounter("ZUUL::EXCEPTION:" + errorCause + ":" + statusCode);
+        incrementCounter("GateKeeper::EXCEPTION:" + errorCause + ":" + statusCode);
     }
 
     public GateException(Throwable throwable, int statusCode, String errorCause) {
         super(throwable.getMessage(), throwable);
         this.statusCode = statusCode;
         this.errorCause = errorCause;
-        incrementCounter("ZUUL::EXCEPTION:" + errorCause + ":" + statusCode);
+        incrementCounter("GateKeeper::EXCEPTION:" + errorCause + ":" + statusCode);
     }
 
     private static final void incrementCounter(String name) {
