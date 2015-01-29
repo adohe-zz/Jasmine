@@ -86,6 +86,22 @@ public class FilterProcessor {
         long execTime = 0;
         String filterName = "";
 
+        try {
+            long ltime = System.currentTimeMillis();
+            filterName = gateFilter.getClass().getSimpleName();
+
+            RequestContext copy = null;
+            Object o = null;
+            Throwable t = null;
+
+            if (debug) {
+
+            }
+
+            GateFilterResult result = gateFilter.runFilter();
+        } catch (Throwable e) {
+
+        }
         return null;
     }
 }
