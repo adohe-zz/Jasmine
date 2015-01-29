@@ -88,4 +88,12 @@ public class RequestContext extends ConcurrentHashMap<String, Object> {
     public void setOriginResponse(OriginResponse response) {
         put("originResponse", response);
     }
+
+    public void setDebugRouting(boolean debugRouting) {
+        set("debugRouting", debugRouting);
+    }
+
+    public boolean debugRouting() {
+        return getBoolean("debugRouting");
+    }
 }

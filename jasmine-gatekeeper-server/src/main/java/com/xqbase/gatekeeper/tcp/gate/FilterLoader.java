@@ -111,7 +111,7 @@ public class FilterLoader {
         return false;
     }
 
-    private List<AbstractGateFilter> getFiltersByType(String filterType) {
+    public List<AbstractGateFilter> getFiltersByType(String filterType) {
         List<AbstractGateFilter> filters = hashFiltersByType.get(filterType);
 
         if (filters != null)

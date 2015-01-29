@@ -17,11 +17,29 @@ public class GateRunner {
      * Constructor
      */
     public GateRunner() {
-
     }
 
+    /**
+     * Sets GateRequest request and GateResponse response.
+     */
     public void init(OriginRequest request, OriginResponse response) {
         RequestContext.getCurrentContext().setOriginRequest(request);
         RequestContext.getCurrentContext().setOriginResponse(response);
+    }
+
+    public void preRoute() {
+
+    }
+
+    public void route() {
+
+    }
+
+    public void postRoute() {
+
+    }
+
+    public void error() {
+
     }
 }

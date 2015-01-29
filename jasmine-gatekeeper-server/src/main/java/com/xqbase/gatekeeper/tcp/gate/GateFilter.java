@@ -32,5 +32,5 @@ public interface GateFilter {
      * If the shouldFilter() is true, this method will be invoked. This
      * method is the core method of the GateFilter.
      */
-    Object run();
+    Object runFilter();
 }
