@@ -29,7 +29,15 @@ public class FilterProcessor {
      * @throws GateException
      */
     public void preRoute() throws GateException {
+        try {
+            runFilters("pre");
+        } catch (Throwable e) {
+            if (e instanceof GateException) {
+                throw (GateException) e;
+            }
 
+            throw new GateException(e, 500, "UNCAUGHT_EXCEPTION_IN_PRE_FILTER_" + e.getClass().getName());
+        }
     }
 
     /**
@@ -37,7 +45,15 @@ public class FilterProcessor {
      * @throws GateException
      */
     public void route() throws GateException {
+        try {
+            runFilters("route");
+        } catch (Throwable e) {
+            if (e instanceof GateException) {
+                throw (GateException) e;
+            }
 
+            throw new GateException(e, 500, "UNCAUGHT_EXCEPTION_IN_ROUTE_FILTER_" + e.getClass().getName());
+        }
     }
 
     /**
@@ -47,7 +63,15 @@ public class FilterProcessor {
      * @throws GateException
      */
     public void postRoute() throws GateException {
+        try {
+            runFilters("post");
+        } catch (Throwable e) {
+            if (e instanceof GateException) {
+                throw (GateException) e;
+            }
 
+            throw new GateException(e, 500, "UNCAUGHT_EXCEPTION_IN_POST_FILTER_" + e.getClass().getName());
+        }
     }
 
     /**
@@ -55,7 +79,11 @@ public class FilterProcessor {
      * Exceptions from this are swallowed and logged so as not to bubble up.
      */
     public void error() {
-
+        try {
+            runFilters("error");
+        } catch (Throwable e) {
+            LOGGER.error(e.getMessage(), e);
+        }
     }
 
     /**
@@ -68,7 +96,10 @@ public class FilterProcessor {
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 AbstractGateFilter gateFilter = list.get(i);
-
+                Object result = processGateFilter(gateFilter);
+                if (result != null && result instanceof Boolean) {
+                    bResult |= ((Boolean) result);
+                }
             }
         }
 
