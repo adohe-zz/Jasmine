@@ -8,3 +8,5 @@ gradlew
 gradlew.bat
 .idea/
 Jasmine.iml
+jasmine-gatekeeper-server/jasmine-gatekeeper-server.iml
+*.iml

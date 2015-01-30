@@ -23,6 +23,8 @@ project(':jasmine-gatekeeper-server'){
         compile 'io.netty:netty-handler:5.0.0.Alpha1'
 
         compile 'org.apache.httpcomponents:httpclient:4.3.3'
+
+        compile 'org.codehaus.groovy:groovy-all:2.0.2'
     }
 }
 
