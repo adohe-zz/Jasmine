@@ -20,6 +20,10 @@ project(':jasmine-gatekeeper-server'){
     dependencies {
         compile 'org.slf4j:slf4j-api:1.7.5'
 
+        compile 'ch.qos.logback:logback-core:1.1.1'
+        compile 'ch.qos.logback:logback-classic:1.1.1'
+        compile 'ch.qos.logback:logback-access:1.1.1'
+
         compile 'io.netty:netty-handler:5.0.0.Alpha1'
 
         compile 'org.apache.httpcomponents:httpclient:4.3.3'
@@ -32,6 +36,8 @@ project(':jasmine-server-builder'){
     apply plugin: 'java'
 
     dependencies {
+        compile 'org.slf4j:slf4j-api:1.7.5'
+
         compile 'io.netty:netty-handler:5.0.0.Alpha1'
     }
 }

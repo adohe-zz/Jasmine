@@ -5,19 +5,23 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.util.concurrent.Future;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract Http Server based on Netty.
  *
  * @author Tony He
  */
-public abstract class HttpServer {
+public abstract class NettyServer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NettyServer.class);
 
     private final ServerHost serverHost;
     private final ServerBootstrap serverBootstrap;
     private ChannelFuture serverShutdownFuture;
 
-    protected HttpServer(ServerHost serverHost, ServerBootstrap serverBootstrap) {
+    protected NettyServer(ServerHost serverHost, ServerBootstrap serverBootstrap) {
         this.serverHost = serverHost;
         this.serverBootstrap = serverBootstrap;
     }
@@ -30,16 +34,6 @@ public abstract class HttpServer {
     public void startWithoutWaitingForShutdown() throws Exception {
         Channel channel = serverBootstrap.bind().sync().channel();
         System.out.println("Netty based Http Server started at port: " + channel.localAddress());
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    stop();
-                } catch (InterruptedException e) {
-                    System.out.println("Error while shutdown...");
-                }
-            }
-        }));
         serverShutdownFuture = channel.closeFuture();
     }
 

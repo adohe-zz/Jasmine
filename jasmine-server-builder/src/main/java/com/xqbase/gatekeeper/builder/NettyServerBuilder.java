@@ -4,16 +4,16 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 
 /**
- * Abstract builder factory for {@link com.xqbase.gatekeeper.builder.HttpServer}
+ * Abstract builder factory for {@link NettyServer}
  *
  * @author Tony He
  */
-public abstract class HttpServerBuilder<T extends HttpServerBuilder, S extends HttpServer> {
+public abstract class NettyServerBuilder<T extends NettyServerBuilder, S extends NettyServer> {
 
     protected final ServerBootstrap serverBootstrap;
     protected ServerHost serverHost;
 
-    public HttpServerBuilder(int port) {
+    public NettyServerBuilder(int port) {
         serverBootstrap = new ServerBootstrap();
         serverBootstrap.localAddress(port);
     }
