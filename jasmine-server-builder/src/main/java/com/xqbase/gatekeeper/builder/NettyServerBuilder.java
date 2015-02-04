@@ -1,6 +1,7 @@
 package com.xqbase.gatekeeper.builder;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelOption;
 
 /**
@@ -20,27 +21,28 @@ public abstract class NettyServerBuilder<T extends NettyServerBuilder, S extends
 
     public T serverHost(ServerHost serverHost) {
         this.serverHost = serverHost;
-        return returnBuilder();
+        return (T) this;
     }
 
     public <O> T serverSocketOption(ChannelOption<O> channelOption, O value) {
         serverBootstrap.option(channelOption, value);
-        return returnBuilder();
+        return (T) this;
     }
 
     public <O> T clientSocketOption(ChannelOption<O> channelOption, O value) {
         serverBootstrap.childOption(channelOption, value);
-        return returnBuilder();
+        return (T) this;
+    }
+
+    public T handler(ChannelHandler handler) {
+        serverBootstrap.handler(handler);
+        return (T) this;
     }
 
     public S build() {
         configureBootstrap();
         S server = createServer();
         return server;
-    }
-
-    private T returnBuilder() {
-        return (T) this;
     }
 
     protected abstract void configureBootstrap();

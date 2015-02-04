@@ -21,6 +21,7 @@
     <orderEntry type="library" exported="" name="Gradle: netty-transport-5.0.0.Alpha1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: netty-codec-5.0.0.Alpha1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: netty-common-5.0.0.Alpha1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: slf4j-api-1.7.5" level="project" />
   </component>
 </module>
 
