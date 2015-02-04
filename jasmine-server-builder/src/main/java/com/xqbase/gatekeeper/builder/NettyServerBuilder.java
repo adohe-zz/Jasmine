@@ -1,7 +1,9 @@
 package com.xqbase.gatekeeper.builder;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 
 /**
@@ -36,6 +38,11 @@ public abstract class NettyServerBuilder<T extends NettyServerBuilder, S extends
 
     public T handler(ChannelHandler handler) {
         serverBootstrap.handler(handler);
+        return (T) this;
+    }
+
+    public T childHandler(ChannelInitializer<Channel> channelInitializer) {
+        serverBootstrap.childHandler(channelInitializer);
         return (T) this;
     }
 
